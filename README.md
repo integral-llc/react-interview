@@ -12,7 +12,7 @@ $ npm start
 
 Then open your browser to [http://localhost:8080](http://localhost:8080). You should see a list of questions.
 
-Make a branch with your name, after you complere as many of the subjects as you can
+Make a branch with your name, after you complete as many of the subjects as you can
 create a pull-request.
 
 
