@@ -1,10 +1,10 @@
 import { EventEmitter } from 'events'
 
-const CHANGE = 'change'
+const CHANGE = 'change';
 
 export default function createStore(reducer) {
-  let state = reducer(undefined, { type: '@INIT' })
-  const events = new EventEmitter()
+  let state = reducer(undefined, { type: '@INIT' });
+  const events = new EventEmitter();
 
   return {
     getState() {
@@ -12,7 +12,7 @@ export default function createStore(reducer) {
     },
 
     dispatch(action) {
-      state = reducer(state, action)
+      state = reducer(state, action);
       events.emit(CHANGE)
     },
 

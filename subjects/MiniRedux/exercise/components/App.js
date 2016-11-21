@@ -4,11 +4,11 @@ import connect from '../mini-redux/connect'
 class App extends React.Component {
   increment = () => {
     this.props.dispatch({ type: 'INCREMENT' })
-  }
+  };
 
   decrement = () => {
     this.props.dispatch({ type: 'DECREMENT' })
-  }
+  };
 
   render() {
     return (
@@ -24,5 +24,5 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
   return { counter: state }
-}
+};
 export default connect(mapStateToProps)(App)
