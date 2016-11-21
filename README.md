@@ -1,4 +1,4 @@
-## Welcome to React Training!
+## Welcome to React Interview!
 
 This repo contains the course material for React interview. 
 
