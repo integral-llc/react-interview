@@ -13,7 +13,7 @@ export default function createStore(reducer) {
 
     dispatch(action) {
       state = reducer(state, action);
-      events.emit(CHANGE)
+      events.emit(CHANGE, state)
     },
 
     listen(listener) {
