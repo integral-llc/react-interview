@@ -1,52 +1,22 @@
-
-import React, { PropTypes } from 'react'
-import { render } from 'react-dom'
+import React, {PropTypes} from 'react'
+import {render} from 'react-dom'
 import './styles.css'
 
-const { func, any } = PropTypes;
-
-
-////////////////////////////////////////////////////////////////////////////////
-// Requirements
-//
-// Make this work like a normal <select><option/></select>
-//
-
-class Select extends React.Component {
-  static propTypes = {
-    onChange: func,
-    value: any,
-    defaultValue: any
-  };
-
-  render() {
-    return (
-      <div className="select">
-        <div className="label">label <span className="arrow">▾</span></div>
-        <div className="options">
-          {this.props.children}
-        </div>
-      </div>
-    )
-  }
-}
-
-
-class Option extends React.Component {
-  render() {
-    return (
-      <div className="option">{this.props.children}</div>
-    )
-  }
-}
+import Select from './components/Select';
+import Option from './components/Select/Option';
 
 class App extends React.Component {
   state = {
     selectValue: 'dosa'
   };
 
+  constructor() {
+    super();
+    this.setToMintChutney = this.setToMintChutney.bind(this);
+  }
+
   setToMintChutney() {
-   this.setState({selectValue: 'mint-chutney'})
+    this.setState({selectValue: 'mint-chutney'})
   }
 
   render() {
@@ -62,7 +32,7 @@ class App extends React.Component {
 
         <Select
           value={this.state.selectValue}
-          onChange={(selectValue) => this.setState({ selectValue })}
+          onChange={(selectValue) => this.setState({selectValue})}
         >
           <Option value="tikka-masala">Tikka Masala</Option>
           <Option value="tandoori-chicken">Tandoori Chicken</Option>
