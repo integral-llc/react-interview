@@ -9,10 +9,42 @@ export default function connect(mapStateToProps = (state) => ({}), mapDispatchTo
         store: React.PropTypes.object
       };
 
-      render() {
-        const props = {...mapStateToProps(this.context.store.getState()), ...mapDispatchToProps(this.context.store.dispatch)};
+      mergedProps = {};
 
-        return <Component {...props} />;
+      constructor(props, context) {
+        super(props, context);
+
+        this.state = {
+          storeState: this.context.store.getState()
+        };
+
+        this.onStateChange = this.onStateChange.bind(this);
+      }
+
+      componentDidMount() {
+        this.context.store.listen(this.onStateChange);
+      }
+
+      componentWillUnMount() {
+        this.context.store.removeListener(this.onStateChange);
+      }
+
+      onStateChange() {
+        const storeState =  this.context.store.getState();
+        this.setState({storeState})
+      }
+
+      mergeProps() {
+        const stateProps = mapStateToProps(this.state.storeState);
+        const dispatchProps = mapDispatchToProps(this.context.store.dispatch);
+
+        this.mergedProps = {...stateProps, ...dispatchProps, ...this.props};
+      }
+
+      render() {
+        this.mergeProps();
+
+        return <Component {...this.mergedProps} />;
       }
     }
 

@@ -1,9 +1,9 @@
-import { EventEmitter } from 'events'
+import {EventEmitter} from 'events'
 
 const CHANGE = 'change';
 
 export default function createStore(reducer) {
-  let state = reducer(undefined, { type: '@INIT' });
+  let state = reducer(undefined, {type: '@INIT'});
   const events = new EventEmitter();
 
   return {
