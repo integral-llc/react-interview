@@ -14,8 +14,9 @@ export default class Select extends React.Component {
     super(props, context);
 
     // set initial state
+    const selectedValue = props.value || props.defaultValue;
     this.state = {
-      selectedOption: this.getOptionByValue(props.value || props.defaultValue) || {
+      selectedOption: selectedValue ? this.getOptionByValue(props.value || props.defaultValue) : {
         value: '',
         label: 'Not selected'
       },

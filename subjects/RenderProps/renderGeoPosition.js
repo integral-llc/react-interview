@@ -43,8 +43,7 @@ export default function renderGeoPosition(Component) {
           </div>
         ) : (
           <div>
-            <h1>Error happened</h1>
-            <pre className="hot">{JSON.stringify(this.state.error)}</pre>
+            <h1 className="hot">{this.state.error.message}</h1>
           </div>
         )
       )

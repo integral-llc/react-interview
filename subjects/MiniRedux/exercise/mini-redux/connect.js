@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function connect(mapStateToProps = (state) => ({}), mapDispatchToProps = dispatch => ({dispatch})) {
+export default function connect(mapStateToProps, mapDispatchToProps = dispatch => ({dispatch})) {
   return function (Component) {
 
     class Connect extends React.Component {
@@ -29,8 +29,7 @@ export default function connect(mapStateToProps = (state) => ({}), mapDispatchTo
         this.context.store.removeListener(this.onStateChange);
       }
 
-      onStateChange() {
-        const storeState =  this.context.store.getState();
+      onStateChange(storeState) {
         this.setState({storeState})
       }
 

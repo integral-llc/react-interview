@@ -14,8 +14,11 @@ export default function withMousePosition(Component) {
       this.onMouseMove = this.onMouseMove.bind(this);
     }
 
-    onMouseMove({clientX: x, clientY: y}) {
-      this.setState({x, y});
+    onMouseMove(event) {
+      this.setState({
+        x: event.clientX,
+        y: event.clientY
+      });
     }
 
 
