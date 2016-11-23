@@ -15,56 +15,28 @@
 //   needed to render it
 // - Make sure GeoAddress supports the user moving positions
 ////////////////////////////////////////////////////////////////////////////////
+
 import React from 'react'
-import { render } from 'react-dom'
+import {render} from 'react-dom'
 import LoadingDots from './utils/LoadingDots'
-import getAddressFromCoords from './utils/getAddressFromCoords'
 
-class App extends React.Component {
-  state = {
-    coords: {
-      latitude: null,
-      longitude: null
-    }
-  };
+import renderGeoPosition from './renderGeoPosition'
 
-  componentDidMount() {
-    this.geoId = navigator.geolocation.watchPosition(
-      (position) => {
-        this.setState({
-          coords: {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          }
-        })
-      },
-      (error) => {
-        this.setState({ error })
-      }
-    )
-  }
+const App = ({latitude, longitude}) => {
 
-  componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.geoId)
-  }
-
-  render() {
     return (
-      <div>
-        <h1>Geolocation</h1>
-        {this.state.error ? (
-          <div>{this.state.error.message}</div>
-        ) : (
-          <dl>
-            <dt>Latitude</dt>
-            <dd>{this.state.coords.latitude || <LoadingDots/>}</dd>
-            <dt>Longitude</dt>
-            <dd>{this.state.coords.longitude || <LoadingDots/>}</dd>
-          </dl>
-        )}
-      </div>
-    )
-  }
-}
+        <div>
+            <h1>Geolocation</h1>
+            <dl>
+                <dt>Latitude</dt>
+                <dd>{latitude || <LoadingDots />}</dd>
+                <dt>Longitude</dt>
+                <dd>{longitude || <LoadingDots />}</dd>
+            </dl>
+        </div>
+    );
+};
 
-render(<App/>, document.getElementById('app'));
+const GeoPosition = renderGeoPosition(App);
+
+render(<GeoPosition />, document.getElementById('app'));

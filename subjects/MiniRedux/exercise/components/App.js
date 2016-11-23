@@ -2,6 +2,14 @@ import React, { PropTypes } from 'react'
 import connect from '../mini-redux/connect'
 
 class App extends React.Component {
+
+  constructor(props, context) {
+    super(props, context);
+
+    this.increment = this.increment.bind(this);
+    this.decrement = this.decrement.bind(this);
+  }
+
   increment = () => {
     this.props.dispatch({ type: 'INCREMENT' })
   };
@@ -25,4 +33,5 @@ class App extends React.Component {
 const mapStateToProps = (state) => {
   return { counter: state }
 };
+
 export default connect(mapStateToProps)(App)
