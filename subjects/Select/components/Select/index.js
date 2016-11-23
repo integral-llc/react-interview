@@ -1,4 +1,6 @@
 import React, {PropTypes} from 'react'
+import $ from 'jquery';
+
 const {func, any} = PropTypes;
 
 export default class Select extends React.Component {
@@ -12,11 +14,11 @@ export default class Select extends React.Component {
     super(props, context);
 
     // set initial state
-    const selectedValue = props.value || props.defaultValue;
-
     this.state = {
-      value:  selectedValue,
-      label: selectedValue ? this.getOptionByValue(selectedValue).label : 'Not selected',
+      selectedOption: this.getOptionByValue(props.value || props.defaultValue) || {
+        value: '',
+        label: 'Not selected'
+      },
       isOpened: false
     };
 
@@ -38,26 +40,22 @@ export default class Select extends React.Component {
   }
 
   componentWillReceiveProps({value}) {
-    value && this.setState(this.getOptionByValue(value))
+    value && this.setState({selectedOption: this.getOptionByValue(value)})
   }
 
   toggle() {
     this.setState({isOpened: !this.state.isOpened});
   }
 
-  onSelect({value, label}) {
-    this.setState({value, label, isOpened: false});
-    this.props.onChange && this.props.onChange(value);
+  onSelect(selectedOption) {
+    this.setState({selectedOption, isOpened: false});
+    this.props.onChange && this.props.onChange(selectedOption.value);
   }
 
   // close select when clicking outside
   onDocumentClick(event) {
-    if (
-      !event.target.classList.contains('select') &&
-      (!event.target.parentNode || !event.target.parentNode.classList.contains('select')) &&
-      (!event.target.parentNode.parentNode || !event.target.parentNode.parentNode.classList.contains('select'))
-    ) {
-      this.setState({isOpened: false});
+    if ($(event.target).closest('.js-select').length === 0) {
+        this.setState({isOpened: false});
     }
   }
 
@@ -83,9 +81,9 @@ export default class Select extends React.Component {
     });
 
     return (
-      <div className={this.state.isOpened ? 'select opened' : 'select'}>
-        <div className="label" onClick={this.toggle}>{this.state.label} <span className="arrow">▾</span></div>
-        <div className="options">
+      <div className='js-select select'>
+        <div className="label" onClick={this.toggle}>{this.state.selectedOption.label} <span className="arrow">▾</span></div>
+        <div className="options" hidden={!this.state.isOpened}>
           {childrenWithProps}
         </div>
       </div>

@@ -1,7 +1,5 @@
 import React from 'react';
 
-const GeoAddress = ({address}) => {
-  return <div>{address}</div>;
-};
+const GeoAddress = ({address}) => <div>{address}</div>;
 
 export default GeoAddress;

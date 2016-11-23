@@ -15,13 +15,9 @@
 }
 
 .options {
-  display: none;
   position: absolute;
   background: #fff;
   border: 1px solid #ccc;
-}
-.select.opened .options {
-  display: block;
 }
 
 .option {

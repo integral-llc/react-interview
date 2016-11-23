@@ -15,9 +15,11 @@
 //   needed to render it
 // - Make sure GeoAddress supports the user moving positions
 ////////////////////////////////////////////////////////////////////////////////
+
 import React from 'react'
 import {render} from 'react-dom'
 import LoadingDots from './utils/LoadingDots'
+
 import renderGeoPosition from './renderGeoPosition'
 
 const App = ({latitude, longitude}) => {
@@ -27,9 +29,9 @@ const App = ({latitude, longitude}) => {
             <h1>Geolocation</h1>
             <dl>
                 <dt>Latitude</dt>
-                <dd>{latitude || <LoadingDots/>}</dd>
+                <dd>{latitude || <LoadingDots />}</dd>
                 <dt>Longitude</dt>
-                <dd>{longitude || <LoadingDots/>}</dd>
+                <dd>{longitude || <LoadingDots />}</dd>
             </dl>
         </div>
     );
@@ -37,4 +39,4 @@ const App = ({latitude, longitude}) => {
 
 const GeoPosition = renderGeoPosition(App);
 
-render(<GeoPosition/>, document.getElementById('app'));
+render(<GeoPosition />, document.getElementById('app'));

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import getAddressFromCoords from './utils/getAddressFromCoords'
-
 import GeoAddress from './GeoAddress';
 
 export default function renderGeoPosition(Component) {
@@ -15,10 +14,6 @@ export default function renderGeoPosition(Component) {
       address: null
     };
 
-    constructor(props, context) {
-      super(props, context);
-    }
-
     componentDidMount() {
       this.geoId = navigator.geolocation.watchPosition(
         (position) => {
@@ -31,9 +26,7 @@ export default function renderGeoPosition(Component) {
           });
           getAddressFromCoords(latitude, longitude).then(address => this.setState({address}));
         },
-        (error) => {
-          this.setState({error})
-        }
+        error => this.setState({error})
       )
     }
 
@@ -43,10 +36,17 @@ export default function renderGeoPosition(Component) {
 
     render() {
       return (
-        <div>
-          <Component latitude={this.state.coords.latitude} longitude={this.state.coords.latitude} />
-          <GeoAddress address={this.state.address} />
-        </div>
+        !this.state.error ? (
+          <div>
+            <Component latitude={this.state.coords.latitude} longitude={this.state.coords.latitude} />
+            <GeoAddress address={this.state.address} />
+          </div>
+        ) : (
+          <div>
+            <h1>Error happened</h1>
+            <pre className="hot">{JSON.stringify(this.state.error)}</pre>
+          </div>
+        )
       )
     }
 

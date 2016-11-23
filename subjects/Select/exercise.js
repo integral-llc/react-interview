@@ -10,8 +10,9 @@ class App extends React.Component {
     selectValue: 'dosa'
   };
 
-  constructor() {
-    super();
+  constructor(props, context) {
+    super(props, context);
+
     this.setToMintChutney = this.setToMintChutney.bind(this);
   }
 
