@@ -20,23 +20,56 @@ import { render } from 'react-dom'
 import LoadingDots from './utils/LoadingDots'
 import getAddressFromCoords from './utils/getAddressFromCoords'
 
-class App extends React.Component {
+//@INFO FOR THE SAKE OF TIME, COMPONENTS ARE NOT IN SEPARATE FILES
+class GeoAddress extends React.Component {
+  static propTypes = {
+    latitude: React.PropTypes.number,
+    longitude: React.PropTypes.number
+  };
+
+  state = {
+    address: null
+  };
+
+  componentDidMount() {
+    const {latitude, longitude} = this.props;
+    this.fetchAddress(latitude, longitude);
+  }
+
+  fetchAddress(latitude, longitude) {
+    latitude && longitude && getAddressFromCoords(latitude, longitude).then(
+      (address) => this.setState({ address })
+    )
+  }
+
+  componentDidUpdate(prevProps) {
+    const { latitude, longitude } = this.props;
+    const { latitude: latitudePrev } = prevProps;
+    (latitudePrev !== latitude) && this.fetchAddress(latitude, longitude);
+  }
+
+  render() {
+    return this.props.children(this.state)
+  }
+}
+
+class GeoPosition extends React.Component {
   state = {
     coords: {
       latitude: null,
       longitude: null
-    }
+    },
   };
 
   componentDidMount() {
     this.geoId = navigator.geolocation.watchPosition(
-      (position) => {
+      ({coords: {latitude, longitude}}) => {
         this.setState({
           coords: {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
+            latitude,
+            longitude
           }
-        })
+        });
       },
       (error) => {
         this.setState({ error })
@@ -49,22 +82,46 @@ class App extends React.Component {
   }
 
   render() {
+    return <div>{this.props.children(this.state)}</div>
+  }
+}
+
+
+class App extends React.Component {
+
+  render() {
     return (
       <div>
         <h1>Geolocation</h1>
-        {this.state.error ? (
-          <div>{this.state.error.message}</div>
-        ) : (
-          <dl>
-            <dt>Latitude</dt>
-            <dd>{this.state.coords.latitude || <LoadingDots/>}</dd>
-            <dt>Longitude</dt>
-            <dd>{this.state.coords.longitude || <LoadingDots/>}</dd>
-          </dl>
-        )}
+        <GeoPosition>
+          {({error, coords}) =>
+            error ? (
+            <div>{error.message}</div>
+          ) : (
+            <dl>
+              <dt>Latitude</dt>
+              <dd>{coords.latitude || <LoadingDots/>}</dd>
+              <dt>Longitude</dt>
+              <dd>{coords.longitude || <LoadingDots/>}</dd>
+            </dl>
+          )}
+        </GeoPosition>
+        <h1>GeoAddress</h1>
+        <GeoPosition>
+          {({ coords }) => (
+            <GeoAddress
+              latitude={coords.latitude}
+              longitude={coords.longitude}
+            >
+              {({ address }) => (
+                <p>{address || <LoadingDots/>}</p>
+              )}
+            </GeoAddress>
+          )}
+        </GeoPosition>
       </div>
     )
   }
 }
 
-render(<App/>, document.getElementById('app'));
+render(<App />, document.getElementById('app'));
