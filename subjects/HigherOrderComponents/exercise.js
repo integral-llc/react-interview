@@ -10,7 +10,40 @@ import React from 'react'
 import { render } from 'react-dom'
 
 const withMousePosition = (Component) => {
-  return Component
+  return class HOC extends React.Component {
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        mouse: {
+          x: 0,
+          y: 0,
+        }
+      }
+
+      document.addEventListener('mousemove', e => this.onMouseMoveHandler(e))
+    }
+
+    onMouseMoveHandler(e) {
+      this.setState({
+        mouse: {
+          x: e.clientX,
+          y: e.clientY,
+        }
+      })
+    }
+
+    render() {
+      const newProps = {
+        mouse: {
+          x: this.state.mouse.x,
+          y: this.state.mouse.y,
+        }
+      }
+
+      return <Component {...newProps}/>
+    }
+  }
 };
 
 class App extends React.Component {
