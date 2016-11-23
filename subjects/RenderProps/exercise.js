@@ -20,23 +20,28 @@ import React from 'react'
 import {render} from 'react-dom'
 import LoadingDots from './utils/LoadingDots'
 
-import renderGeoPosition from './renderGeoPosition'
+import GeoPosition from './GeoPosition';
+import GeoAddress from './GeoAddress';
 
-const App = ({latitude, longitude}) => {
-
-    return (
-        <div>
-            <h1>Geolocation</h1>
-            <dl>
-                <dt>Latitude</dt>
-                <dd>{latitude || <LoadingDots />}</dd>
-                <dt>Longitude</dt>
-                <dd>{longitude || <LoadingDots />}</dd>
-            </dl>
-        </div>
-    );
+const App = function App() {
+  return (
+    <div>
+      <h1>Geolocation</h1>
+      <GeoPosition>
+        {
+          ({latitude, longitude}, error) => (
+            <div>
+              <p><strong>Latitude</strong>: {latitude || <LoadingDots />}</p>
+              <p><strong>Longitude</strong>: {longitude || <LoadingDots />}</p>
+              <GeoAddress latitude={latitude} longitude={longitude}>
+                {address => <p><strong>Address</strong>: {address || <LoadingDots />}</p>}
+              </GeoAddress>
+            </div>
+          )
+        }
+      </GeoPosition>
+    </div>
+  )
 };
 
-const GeoPosition = renderGeoPosition(App);
-
-render(<GeoPosition />, document.getElementById('app'));
+render(<App />, document.getElementById('app'));
