@@ -29,7 +29,7 @@ class Select extends React.Component {
   setValue({value}) {
     let isValueCorrect = false;
     React.Children.forEach(this.props.children, option => {
-      if (option.props.value == value) {
+      if (option.props.value === value) {
         this.setState({
           label: option.props.children,
           value,
