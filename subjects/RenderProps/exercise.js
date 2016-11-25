@@ -24,9 +24,43 @@ import GeoAddress from './components/GeoAddress'
 class App extends React.Component {
   render() {
     return (
-      <GeoPosition getGeoPosition={(state) => this.setState(state)}>
-        <GeoAddress {...this.state}/>
+      <div>
+      <GeoPosition>
+        {({error, coords}) => {
+          return (
+            <div>
+              <h1>Geolocation</h1>
+              {
+                error ? (
+                  <div>{error.message}</div>
+                ) : (
+                  <dl>
+                    <dt>Latitude</dt>
+                    <dd>{coords.latitude || <LoadingDots/>}</dd>
+                    <dt>Longitude</dt>
+                    <dd>{coords.longitude || <LoadingDots/>}</dd>
+                  </dl>
+                )
+              }
+            </div>
+          )
+        }}
       </GeoPosition>
+      <h1>Address</h1>
+        <GeoPosition>
+          {(coords) => {
+            return (
+              <GeoAddress {...coords}>
+                {({city}) => {
+                  return (
+                    <div> { city || <LoadingDots/> }</div>
+                  )
+                }}
+              </GeoAddress>
+            )}
+          }
+        </GeoPosition>
+      </div>
     )
   }
 }

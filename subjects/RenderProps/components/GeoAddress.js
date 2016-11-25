@@ -1,5 +1,6 @@
 import React from 'react'
 import getAddressFromCoords from '../utils/getAddressFromCoords'
+import LoadingDots from '../utils/LoadingDots'
 
 class GeoAddress extends React.Component {
   constructor(props) {
@@ -21,11 +22,8 @@ class GeoAddress extends React.Component {
 
   render() {
     return (
-      <div>
-      <dt>Address</dt>
-      <dd>{this.state.city}</dd>
-    </div>
-  )
+      <div>{this.props.children(this.state)}</div>
+    )
   }
 }
 

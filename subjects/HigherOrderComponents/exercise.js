@@ -20,17 +20,25 @@ const withMousePosition = (Component) => {
           y: 0,
         }
       }
-
-      document.addEventListener('mousemove', e => this.onMouseMoveHandler(e))
     }
 
-    onMouseMoveHandler(e) {
+    _onMouseMoveHandler(e) {
       this.setState({
         mouse: {
           x: e.clientX,
           y: e.clientY,
         }
       })
+    }
+
+    onMouseMoveHandler = e => this._onMouseMoveHandler(e);
+
+    componentDidMount() {
+      document.addEventListener('mousemove', this.onMouseMoveHandler)
+    }
+
+    componentWillUnmount() {
+      document.removeEventListener('mousemove', this.onMouseMoveHandler)
     }
 
     render() {

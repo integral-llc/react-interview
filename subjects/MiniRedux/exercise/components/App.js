@@ -2,12 +2,16 @@ import React, { PropTypes } from 'react'
 import connect from '../mini-redux/connect'
 
 class App extends React.Component {
+  static contextTypes = {
+    store: React.PropTypes.object,
+  }
+
   increment = () => {
-    this.props.dispatch({ type: 'INCREMENT' })
+    this.context.store.dispatch({ type: 'INCREMENT' })
   };
 
   decrement = () => {
-    this.props.dispatch({ type: 'DECREMENT' })
+    this.context.store.dispatch({ type: 'DECREMENT' })
   };
 
   render() {

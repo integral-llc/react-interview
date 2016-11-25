@@ -45,7 +45,7 @@ class Select extends React.Component {
     this.setState({showOptions: !this.state.showOptions});
   }
 
-  handleClick({e}) {
+  _handleClick(e) {
     const arrowDOMNode = findDOMNode(this.refs.arrow);
     const optionsDOMNode = findDOMNode(this.refs.options);
 
@@ -55,13 +55,14 @@ class Select extends React.Component {
     }
   }
 
+  handleClick = e => this._handleClick(e)
 
   componentDidMount() {
-    document.addEventListener('click', e => this.handleClick({e}))
+    document.addEventListener('click', this.handleClick)
   }
 
   componentWillUnmount () {
-    document.removeEventListener('click', e => this.handleClick({e}));
+    document.removeEventListener('click', this.handleClick);
   }
 
   componentWillMount() {
@@ -96,6 +97,9 @@ class Select extends React.Component {
   render() {
     const childrenWithSelectCallbacks = React.Children.map(this.props.children, option => React.cloneElement(option, {
         onSelect: ({e, value}) => {
+          if (this.props.onChange) {
+            this.props.onChange(value)
+          }
           this.setValue({value});
           this.toggleOptionsAppearence();
         }

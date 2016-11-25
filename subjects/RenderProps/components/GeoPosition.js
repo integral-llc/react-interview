@@ -18,8 +18,6 @@ class GeoPosition extends React.Component {
           longitude: position.coords.longitude
         }
       })
-
-    this.props.getGeoPosition(this.state)
   },
     (error) => {
       this.setState({ error })
@@ -33,22 +31,7 @@ class GeoPosition extends React.Component {
 
   render() {
     return (
-      <div>
-      <h1>Geolocation</h1>
-      {
-        this.state.error ? (
-          <div>{this.state.error.message}</div>
-        ) : (
-          <dl>
-            <dt>Latitude</dt>
-            <dd>{this.state.coords.latitude || <LoadingDots/>}</dd>
-            <dt>Longitude</dt>
-            <dd>{this.state.coords.longitude || <LoadingDots/>}</dd>
-            {this.props.children}
-          </dl>
-        )
-      }
-      </div>
+      <div>{this.props.children(this.state)}</div>
     )
   }
 }
