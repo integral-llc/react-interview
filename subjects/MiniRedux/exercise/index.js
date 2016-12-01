@@ -16,6 +16,6 @@ const store = createStore((state = 0, action) => {
 
 render((
   <Provider store={store}>
-    <App/>
+    <App />
   </Provider>
 ), document.getElementById('app'));
